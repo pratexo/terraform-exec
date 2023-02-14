@@ -3,6 +3,7 @@ package tfexec
 import (
 	"context"
 	"encoding/json"
+
 	"os/exec"
 )
 
@@ -48,15 +49,16 @@ func (tf *Terraform) Output(ctx context.Context, opts ...OutputOption) (map[stri
 // Output represents the terraform output subcommand.
 func (tf *Terraform) OutputRaw(ctx context.Context, FieldToOutput string) string {
 	tf.logger.Printf("FieldToOutput: %s", FieldToOutput)
-	outputCmd := tf.outputCmdRaw(ctx)
+	outputCmd := tf.outputCmdRaw(ctx, FieldToOutput)
 	outputs := tf.runTerraformCmdString(ctx, outputCmd)
 	tf.logger.Printf("Outputraw: %s", outputs)
 	return outputs
 }
 
-func (tf *Terraform) outputCmdRaw(ctx context.Context) *exec.Cmd {
+func (tf *Terraform) outputCmdRaw(ctx context.Context, FieldToOutput string) *exec.Cmd {
 
-	args := []string{"output", "-no-color", "-raw"}
+	args := []string{"output", "-no-color", "-raw", FieldToOutput}
+
 	return tf.buildTerraformCmd(ctx, nil, args...)
 }
 
