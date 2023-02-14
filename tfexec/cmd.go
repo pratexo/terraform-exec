@@ -212,9 +212,11 @@ func (tf *Terraform) runTerraformCmdString(ctx context.Context, cmd *exec.Cmd) s
 	err := tf.runTerraformCmd(ctx, cmd)
 	if err != nil {
 		tf.logger.Printf("runTerraformCmdString: %s", err.Error())
+		fmt.Println("Error: runTerraformCmdString:", err.Error())
 		return err.Error()
 	}
 	result := outbuf.String()
+	fmt.Println("Result: runTerraformCmdString:", result)
 	tf.logger.Printf("runTerraformCmdString result: %s", result)
 	return result
 }
